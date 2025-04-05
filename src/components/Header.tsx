@@ -1,4 +1,3 @@
-import { useAppContext } from '../context/AppContext';
 import { User } from '../type/types';
 import { renderLog } from '../utils';
 import { memo } from 'react';

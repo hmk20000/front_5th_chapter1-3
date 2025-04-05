@@ -1,36 +1,42 @@
 import { memo } from 'react';
-import { useAppContext } from '../context/AppContext';
 import { renderLog } from '../utils';
-
+import { Notification } from '../type/types';
 // NotificationSystem 컴포넌트
-export const NotificationSystem = memo(() => {
-  renderLog('NotificationSystem rendered');
-  const { notifications, removeNotification } = useAppContext();
+export const NotificationSystem = memo(
+  ({
+    notifications,
+    removeNotification,
+  }: {
+    notifications: Notification[];
+    removeNotification: (id: number) => void;
+  }) => {
+    renderLog('NotificationSystem rendered');
 
-  return (
-    <div className="fixed bottom-4 right-4 space-y-2">
-      {notifications.map((notification) => (
-        <div
-          key={notification.id}
-          className={`p-4 rounded shadow-lg ${
-            notification.type === 'success'
-              ? 'bg-green-500'
-              : notification.type === 'error'
-                ? 'bg-red-500'
-                : notification.type === 'warning'
-                  ? 'bg-yellow-500'
-                  : 'bg-blue-500'
-          } text-white`}
-        >
-          {notification.message}
-          <button
-            onClick={() => removeNotification(notification.id)}
-            className="ml-4 text-white hover:text-gray-200"
+    return (
+      <div className="fixed bottom-4 right-4 space-y-2">
+        {notifications.map((notification) => (
+          <div
+            key={notification.id}
+            className={`p-4 rounded shadow-lg ${
+              notification.type === 'success'
+                ? 'bg-green-500'
+                : notification.type === 'error'
+                  ? 'bg-red-500'
+                  : notification.type === 'warning'
+                    ? 'bg-yellow-500'
+                    : 'bg-blue-500'
+            } text-white`}
           >
-            닫기
-          </button>
-        </div>
-      ))}
-    </div>
-  );
-});
+            {notification.message}
+            <button
+              onClick={() => removeNotification(notification.id)}
+              className="ml-4 text-white hover:text-gray-200"
+            >
+              닫기
+            </button>
+          </div>
+        ))}
+      </div>
+    );
+  }
+);
