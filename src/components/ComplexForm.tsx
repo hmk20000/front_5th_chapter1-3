@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { useAppContext } from '../context/AppContext';
 import { renderLog } from '../utils';
 
 // ComplexForm 컴포넌트
-export const ComplexForm: React.FC = () => {
+export const ComplexForm = memo(() => {
   renderLog('ComplexForm rendered');
   const { addNotification } = useAppContext();
   const [formData, setFormData] = useState({
@@ -85,4 +85,4 @@ export const ComplexForm: React.FC = () => {
       </form>
     </div>
   );
-};
+});

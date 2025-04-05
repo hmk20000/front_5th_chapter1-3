@@ -3,8 +3,8 @@ import { User, Notification } from '../type/types';
 
 // AppContext 타입 정의
 export interface AppContextType {
-  theme: string;
-  toggleTheme: () => void;
+  // theme: string;
+  // toggleTheme: () => void;
   user: User | null;
   login: (email: string, password: string) => void;
   logout: () => void;
