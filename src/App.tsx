@@ -1,5 +1,5 @@
-import React, { useState, createContext, useContext } from "react";
-import { generateItems, renderLog } from "./utils";
+import React, { useState, createContext, useContext } from 'react';
+import { generateItems, renderLog } from './utils';
 
 // 타입 정의
 interface Item {
@@ -18,7 +18,7 @@ interface User {
 interface Notification {
   id: number;
   message: string;
-  type: "info" | "success" | "warning" | "error";
+  type: 'info' | 'success' | 'warning' | 'error';
 }
 
 // AppContext 타입 정의
@@ -29,7 +29,7 @@ interface AppContextType {
   login: (email: string, password: string) => void;
   logout: () => void;
   notifications: Notification[];
-  addNotification: (message: string, type: Notification["type"]) => void;
+  addNotification: (message: string, type: Notification['type']) => void;
   removeNotification: (id: number) => void;
 }
 
@@ -39,19 +39,19 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 const useAppContext = () => {
   const context = useContext(AppContext);
   if (context === undefined) {
-    throw new Error("useAppContext must be used within an AppProvider");
+    throw new Error('useAppContext must be used within an AppProvider');
   }
   return context;
 };
 
 // Header 컴포넌트
 export const Header: React.FC = () => {
-  renderLog("Header rendered");
+  renderLog('Header rendered');
   const { theme, toggleTheme, user, login, logout } = useAppContext();
 
   const handleLogin = () => {
     // 실제 애플리케이션에서는 사용자 입력을 받아야 합니다.
-    login("user@example.com", "password");
+    login('user@example.com', 'password');
   };
 
   return (
@@ -63,7 +63,7 @@ export const Header: React.FC = () => {
             onClick={toggleTheme}
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
           >
-            {theme === "light" ? "다크 모드" : "라이트 모드"}
+            {theme === 'light' ? '다크 모드' : '라이트 모드'}
           </button>
           {user ? (
             <div className="flex items-center">
@@ -94,14 +94,14 @@ export const ItemList: React.FC<{
   items: Item[];
   onAddItemsClick: () => void;
 }> = ({ items, onAddItemsClick }) => {
-  renderLog("ItemList rendered");
-  const [filter, setFilter] = useState("");
+  renderLog('ItemList rendered');
+  const [filter, setFilter] = useState('');
   const { theme } = useAppContext();
 
   const filteredItems = items.filter(
     (item) =>
       item.name.toLowerCase().includes(filter.toLowerCase()) ||
-      item.category.toLowerCase().includes(filter.toLowerCase()),
+      item.category.toLowerCase().includes(filter.toLowerCase())
   );
 
   const totalPrice = filteredItems.reduce((sum, item) => sum + item.price, 0);
@@ -138,7 +138,7 @@ export const ItemList: React.FC<{
         {filteredItems.map((item, index) => (
           <li
             key={index}
-            className={`p-2 rounded shadow ${theme === "light" ? "bg-white text-black" : "bg-gray-700 text-white"}`}
+            className={`p-2 rounded shadow ${theme === 'light' ? 'bg-white text-black' : 'bg-gray-700 text-white'}`}
           >
             {item.name} - {item.category} - {item.price.toLocaleString()}원
           </li>
@@ -150,25 +150,25 @@ export const ItemList: React.FC<{
 
 // ComplexForm 컴포넌트
 export const ComplexForm: React.FC = () => {
-  renderLog("ComplexForm rendered");
+  renderLog('ComplexForm rendered');
   const { addNotification } = useAppContext();
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
+    name: '',
+    email: '',
     age: 0,
     preferences: [] as string[],
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    addNotification("폼이 성공적으로 제출되었습니다", "success");
+    addNotification('폼이 성공적으로 제출되었습니다', 'success');
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: name === "age" ? parseInt(value) || 0 : value,
+      [name]: name === 'age' ? parseInt(value) || 0 : value,
     }));
   };
 
@@ -210,7 +210,7 @@ export const ComplexForm: React.FC = () => {
           className="w-full p-2 border border-gray-300 rounded text-black"
         />
         <div className="space-x-4">
-          {["독서", "운동", "음악", "여행"].map((pref) => (
+          {['독서', '운동', '음악', '여행'].map((pref) => (
             <label key={pref} className="inline-flex items-center">
               <input
                 type="checkbox"
@@ -235,7 +235,7 @@ export const ComplexForm: React.FC = () => {
 
 // NotificationSystem 컴포넌트
 export const NotificationSystem: React.FC = () => {
-  renderLog("NotificationSystem rendered");
+  renderLog('NotificationSystem rendered');
   const { notifications, removeNotification } = useAppContext();
 
   return (
@@ -244,13 +244,13 @@ export const NotificationSystem: React.FC = () => {
         <div
           key={notification.id}
           className={`p-4 rounded shadow-lg ${
-            notification.type === "success"
-              ? "bg-green-500"
-              : notification.type === "error"
-                ? "bg-red-500"
-                : notification.type === "warning"
-                  ? "bg-yellow-500"
-                  : "bg-blue-500"
+            notification.type === 'success'
+              ? 'bg-green-500'
+              : notification.type === 'error'
+                ? 'bg-red-500'
+                : notification.type === 'warning'
+                  ? 'bg-yellow-500'
+                  : 'bg-blue-500'
           } text-white`}
         >
           {notification.message}
@@ -268,13 +268,13 @@ export const NotificationSystem: React.FC = () => {
 
 // 메인 App 컴포넌트
 const App: React.FC = () => {
-  const [theme, setTheme] = useState("light");
+  const [theme, setTheme] = useState('light');
   const [items, setItems] = useState(generateItems(1000));
   const [user, setUser] = useState<User | null>(null);
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
   const toggleTheme = () => {
-    setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
+    setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
   };
 
   const addItems = () => {
@@ -285,16 +285,16 @@ const App: React.FC = () => {
   };
 
   const login = (email: string) => {
-    setUser({ id: 1, name: "홍길동", email });
-    addNotification("성공적으로 로그인되었습니다", "success");
+    setUser({ id: 1, name: '홍길동', email });
+    addNotification('성공적으로 로그인되었습니다', 'success');
   };
 
   const logout = () => {
     setUser(null);
-    addNotification("로그아웃되었습니다", "info");
+    addNotification('로그아웃되었습니다', 'info');
   };
 
-  const addNotification = (message: string, type: Notification["type"]) => {
+  const addNotification = (message: string, type: Notification['type']) => {
     const newNotification: Notification = {
       id: Date.now(),
       message,
@@ -305,7 +305,7 @@ const App: React.FC = () => {
 
   const removeNotification = (id: number) => {
     setNotifications((prev) =>
-      prev.filter((notification) => notification.id !== id),
+      prev.filter((notification) => notification.id !== id)
     );
   };
 
@@ -323,7 +323,7 @@ const App: React.FC = () => {
   return (
     <AppContext.Provider value={contextValue}>
       <div
-        className={`min-h-screen ${theme === "light" ? "bg-gray-100" : "bg-gray-900 text-white"}`}
+        className={`min-h-screen ${theme === 'light' ? 'bg-gray-100' : 'bg-gray-900 text-white'}`}
       >
         <Header />
         <div className="container mx-auto px-4 py-8">
