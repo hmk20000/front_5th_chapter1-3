@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState } from 'react';
 import { generateItems } from './utils';
 import { User, Notification, Item } from './type/types';
 import {
@@ -7,6 +7,8 @@ import {
   ItemList,
   NotificationSystem,
 } from './components';
+import { useCallback, useRef } from './@lib';
+
 // 메인 App 컴포넌트
 const App: React.FC = () => {
   const [theme, setTheme] = useState('light');
