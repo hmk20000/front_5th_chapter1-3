@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { generateItems } from './utils';
 import { AppContext, AppContextType } from './context/AppContext';
 import { User, Notification } from './type/types';
@@ -19,12 +19,12 @@ const App: React.FC = () => {
     setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
   };
 
-  const addItems = () => {
+  const addItems = useCallback(() => {
     setItems((prevItems) => [
       ...prevItems,
       ...generateItems(1000, prevItems.length),
     ]);
-  };
+  }, []);
 
   const login = (email: string) => {
     setUser({ id: 1, name: '홍길동', email });
@@ -53,9 +53,9 @@ const App: React.FC = () => {
 
   const contextValue = useMemo(
     () => ({
-      user,
-      login,
-      logout,
+      // user,
+      // login,
+      // logout,
       notifications,
       addNotification,
       removeNotification,
@@ -68,7 +68,13 @@ const App: React.FC = () => {
       <div
         className={`min-h-screen ${theme === 'light' ? 'bg-gray-100' : 'bg-gray-900 text-white'}`}
       >
-        <Header theme={theme} toggleTheme={toggleTheme} />
+        <Header
+          theme={theme}
+          toggleTheme={toggleTheme}
+          user={user}
+          login={login}
+          logout={logout}
+        />
         <div className="container mx-auto px-4 py-8">
           <div className="flex flex-col md:flex-row">
             <div className="w-full md:w-1/2 md:pr-4">

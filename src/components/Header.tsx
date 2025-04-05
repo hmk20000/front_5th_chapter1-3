@@ -1,12 +1,25 @@
 import { useAppContext } from '../context/AppContext';
+import { User } from '../type/types';
 import { renderLog } from '../utils';
 import { memo } from 'react';
 
 // Header 컴포넌트
 export const Header = memo(
-  ({ theme, toggleTheme }: { theme: string; toggleTheme: () => void }) => {
+  ({
+    theme,
+    toggleTheme,
+    user,
+    login,
+    logout,
+  }: {
+    theme: string;
+    toggleTheme: () => void;
+    user: User | null;
+    login: (email: string, password: string) => void;
+    logout: () => void;
+  }) => {
     renderLog('Header rendered');
-    const { user, login, logout } = useAppContext();
+    // const { user, login, logout } = useAppContext();
 
     const handleLogin = () => {
       // 실제 애플리케이션에서는 사용자 입력을 받아야 합니다.
