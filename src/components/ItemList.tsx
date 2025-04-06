@@ -1,18 +1,17 @@
 import { memo, useState } from 'react';
 import { Item } from '../type/types';
 import { renderLog } from '../utils';
-
+import { themeStore } from '../store/StoreList';
 // ItemList 컴포넌트
 export const ItemList = memo(
   ({
     items,
     onAddItemsClick,
-    theme,
   }: {
     items: Item[];
     onAddItemsClick: () => void;
-    theme: string;
   }) => {
+    const theme = themeStore.useStore();
     renderLog('ItemList rendered');
     const [filter, setFilter] = useState('');
 

@@ -1,24 +1,25 @@
+import { themeStore } from '../store/StoreList';
 import { User } from '../type/types';
 import { renderLog } from '../utils';
-import { memo } from 'react';
+import { memo, useState } from 'react';
 
 // Header 컴포넌트
 export const Header = memo(
   ({
-    theme,
-    toggleTheme,
     user,
     login,
     logout,
   }: {
-    theme: string;
-    toggleTheme: () => void;
     user: User | null;
     login: (email: string, password: string) => void;
     logout: () => void;
   }) => {
     renderLog('Header rendered');
-    // const { user, login, logout } = useAppContext();
+    const theme = themeStore.useStore();
+    const toggleTheme = (e: any) => {
+      e.preventDefault();
+      themeStore.setState((prev) => (prev === 'light' ? 'dark' : 'light'));
+    };
 
     const handleLogin = () => {
       // 실제 애플리케이션에서는 사용자 입력을 받아야 합니다.
