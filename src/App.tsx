@@ -1,37 +1,30 @@
 import React, { useState } from 'react';
 import { generateItems } from './utils';
-import { User, Notification, Item } from './type/types';
+import { User, Notification } from './type/types';
 import {
   ComplexForm,
   Header,
   ItemList,
   NotificationSystem,
 } from './components';
-import { useCallback, useRef } from './@lib';
+import { useCallback } from './@lib';
 
 // 메인 App 컴포넌트
 const App: React.FC = () => {
   const [theme, setTheme] = useState('light');
-  const itemRef = useRef<{ value: Item[] } | null>(null);
-  // const [items, setItems] = useState(generateItems(1000));
+  const [items, setItems] = useState(() => generateItems(1000));
   const [user, setUser] = useState<User | null>(null);
   const [notifications, setNotifications] = useState<Notification[]>([]);
-
-  if (itemRef.current === null) {
-    itemRef.current = { value: generateItems(1000) };
-  }
 
   const toggleTheme = useCallback(() => {
     setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
   }, []);
 
   const addItems = useCallback(() => {
-    itemRef.current = {
-      value: [
-        ...(itemRef.current?.value || []),
-        ...generateItems(1000, itemRef.current?.value?.length || 0),
-      ],
-    };
+    setItems((prevItems) => [
+      ...prevItems,
+      ...generateItems(1000, prevItems.length),
+    ]);
   }, []);
 
   const login = useCallback((email: string) => {
@@ -76,11 +69,7 @@ const App: React.FC = () => {
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col md:flex-row">
           <div className="w-full md:w-1/2 md:pr-4">
-            <ItemList
-              items={itemRef.current.value}
-              onAddItemsClick={addItems}
-              theme={theme}
-            />
+            <ItemList items={items} onAddItemsClick={addItems} theme={theme} />
           </div>
           <div className="w-full md:w-1/2 md:pl-4">
             <ComplexForm addNotification={addNotification} />
