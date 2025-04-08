@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import App from '../App';
 import * as utils from '../utils';
-
+import { notificationStore } from '../store/StoreList';
 const renderLogMock = vi.spyOn(utils, 'renderLog');
 const generateItemsSpy = vi.spyOn(utils, 'generateItems');
 
@@ -11,6 +11,9 @@ describe('최적화된 App 컴포넌트 테스트', () => {
   beforeEach(() => {
     renderLogMock.mockClear();
     generateItemsSpy.mockClear();
+    notificationStore.setState({
+      notifications: [],
+    });
   });
 
   it('초기 렌더링 시 모든 컴포넌트가 한 번씩 렌더링되어야 한다', () => {
